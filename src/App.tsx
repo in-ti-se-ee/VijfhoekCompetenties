@@ -4,9 +4,11 @@ import {
   CardContent,
   Container,
   Grid,
+  LinearProgress,
   Stack,
   Typography,
 } from '@mui/material';
+import { competencies } from './data/competencies';
 
 function App() {
   return (
@@ -57,23 +59,23 @@ function App() {
                     Indicatie per competentie
                   </Typography>
                   <Stack spacing={2}>
-                    {['Analyseren', 'Adviseren', 'Ontwerpen', 'Realiseren', 'Manage & Control'].map(
-                      (competentie) => (
-                        <Box key={competentie}>
+                    {competencies.map((competency) => (
+                      <Box key={competency.id}>
+                        <Stack direction="row" justifyContent="space-between" spacing={2}>
                           <Typography variant="body2" color="text.secondary">
-                            {competentie}
+                            {competency.label}
                           </Typography>
-                          <Box
-                            sx={{
-                              mt: 1,
-                              height: 10,
-                              borderRadius: 999,
-                              bgcolor: 'action.hover',
-                            }}
-                          />
-                        </Box>
-                      ),
-                    )}
+                          <Typography variant="body2" fontWeight={700}>
+                            {competency.percentage}%
+                          </Typography>
+                        </Stack>
+                        <LinearProgress
+                          variant="determinate"
+                          value={competency.percentage}
+                          sx={{ mt: 1, height: 10, borderRadius: 999 }}
+                        />
+                      </Box>
+                    ))}
                   </Stack>
                 </CardContent>
               </Card>
