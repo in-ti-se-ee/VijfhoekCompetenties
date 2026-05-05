@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import {
   Box,
   Card,
@@ -8,9 +9,12 @@ import {
   Stack,
   Typography,
 } from '@mui/material';
+import { RadarPentagon } from './components/RadarPentagon';
 import { competencies } from './data/competencies';
 
 function App() {
+  const [selectedCompetencyId, setSelectedCompetencyId] = useState(competencies[0].id);
+
   return (
     <Box sx={{ minHeight: '100vh', bgcolor: '#f5f7fb', py: { xs: 4, md: 7 } }}>
       <Container maxWidth="lg">
@@ -35,18 +39,18 @@ function App() {
                   <Box
                     sx={{
                       minHeight: 360,
-                      border: '1px dashed',
-                      borderColor: 'divider',
                       borderRadius: 2,
                       display: 'grid',
                       placeItems: 'center',
                       bgcolor: 'background.default',
-                      color: 'text.secondary',
-                      textAlign: 'center',
                       px: 3,
                     }}
                   >
-                    <Typography>Placeholder voor de vijfhoek/radar visualisatie</Typography>
+                    <RadarPentagon
+                      competencies={competencies}
+                      selectedCompetencyId={selectedCompetencyId}
+                      onSelectCompetency={setSelectedCompetencyId}
+                    />
                   </Box>
                 </CardContent>
               </Card>
@@ -62,7 +66,15 @@ function App() {
                     {competencies.map((competency) => (
                       <Box key={competency.id}>
                         <Stack direction="row" justifyContent="space-between" spacing={2}>
-                          <Typography variant="body2" color="text.secondary">
+                          <Typography
+                            variant="body2"
+                            color={
+                              competency.id === selectedCompetencyId
+                                ? 'text.primary'
+                                : 'text.secondary'
+                            }
+                            fontWeight={competency.id === selectedCompetencyId ? 700 : 400}
+                          >
                             {competency.label}
                           </Typography>
                           <Typography variant="body2" fontWeight={700}>
@@ -104,9 +116,15 @@ function App() {
                     Toelichting
                   </Typography>
                   <Stack spacing={1}>
-                    <Typography color="text.secondary">Placeholder tekstregel voor toelichting.</Typography>
-                    <Typography color="text.secondary">Placeholder tekstregel voor extra context.</Typography>
-                    <Typography color="text.secondary">Placeholder tekstregel voor vervolgstappen.</Typography>
+                    <Typography color="text.secondary">
+                      Placeholder tekstregel voor toelichting.
+                    </Typography>
+                    <Typography color="text.secondary">
+                      Placeholder tekstregel voor extra context.
+                    </Typography>
+                    <Typography color="text.secondary">
+                      Placeholder tekstregel voor vervolgstappen.
+                    </Typography>
                   </Stack>
                 </CardContent>
               </Card>
